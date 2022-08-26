@@ -21,12 +21,20 @@ Here weight_levels and activations  levels equals $2^{bit}$
 
 
 ### Testing
-We have uploaded the training checkpoint to the Baidu Cloud and Google Storge. To test the resnet-18 model, download model from [BaiduNetdisk](https://pan.baidu.com/s/1SCk8xA1SVe5UwJ_l4ReZFw)(extract code: quan), and run:
+We have uploaded the training checkpoint to the BaiduNetdisk and Google Storge. To test the pre-trained model, run:
 ```
 python main.py --data your-imagenet-data-path --visible_gpus '0' --workers 20 \
 --arch 'resnet18_quant'  --groups 2  --weight_levels 4 -b 256  --act_levels 4 \
 --evaluate  --model the-model-to-eval
 ```
+
+|  Model  | Weight Bits  | Act Bits | Groups | DownloadUrl | TensorboardLog |
+|  ----  | ----  |----  |----  |----  |----  |
+|  ResNet18  |  2 | 2 | 2 |  [BaiduNetDisk](https://pan.baidu.com/s/1mP7MqmiDGFdwekQjv9Lgk) |[log](/logs/W2A2G2/events.out.tfevents.1646237746.officer-AS-4124GS-TNR.507209.0)|
+|  ResNet18  |  2 | 2 | 3 |  [BaiduNetDisk](https://pan.baidu.com/s/1cwV5f5nGKKUO6EJhV1Hk3A) |[log](/logs/W2A2G3/events.out.tfevents.1646399329.officer-AS-4124GS-TNR.3888486.0)|
+|  ResNet18  |  2 | 2 | 4 |  [BaiduNetDisk](https://pan.baidu.com/s/1LLaXl_K8zLL1yeiZuK-BzQ) |[log](/logs/W2A2G4/events.out.tfevents.1646484476.gpu03.467963.0)|
+extract code: quan
+
 
 ### Citation
 ```
