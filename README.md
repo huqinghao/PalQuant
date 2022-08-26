@@ -33,6 +33,7 @@ python main.py --data your-imagenet-data-path --visible_gpus '0' --workers 20 \
 |  ResNet18  |  2 | 2 | 2 |  [BaiduNetDisk](https://pan.baidu.com/s/1mP7MqmiDGFdwekQjv9Lgk) |[log](/logs/W2A2G2/events.out.tfevents.1646237746.officer-AS-4124GS-TNR.507209.0)|
 |  ResNet18  |  2 | 2 | 3 |  [BaiduNetDisk](https://pan.baidu.com/s/1cwV5f5nGKKUO6EJhV1Hk3A) |[log](/logs/W2A2G3/events.out.tfevents.1646399329.officer-AS-4124GS-TNR.3888486.0)|
 |  ResNet18  |  2 | 2 | 4 |  [BaiduNetDisk](https://pan.baidu.com/s/1LLaXl_K8zLL1yeiZuK-BzQ) |[log](/logs/W2A2G4/events.out.tfevents.1646484476.gpu03.467963.0)|
+
 extract code: quan
 
 
