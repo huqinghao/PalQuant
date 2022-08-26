@@ -118,7 +118,6 @@ def main():
         log_string += "{}: {}\t".format(k,v)
         print("{}: {}".format(k,v), end='\t')
     logging.info(log_string+'\n')
-    print('')
 
     if args.seed is not None:
         random.seed(args.seed)
@@ -207,7 +206,8 @@ def main_worker(gpu, ngpus_per_node, args):
     ### initialze quantizer parameters
     if not args.multiprocessing_distributed or (args.multiprocessing_distributed
                 and args.rank % ngpus_per_node == 0): # do only at rank=0 process
-        init_quant_model(model, args, ngpus_per_node)
+        if not args.evaluate:
+            init_quant_model(model, args, ngpus_per_node)
     ###
     
     if args.distributed:
@@ -223,7 +223,7 @@ def main_worker(gpu, ngpus_per_node, args):
             args.batch_size = int(args.batch_size / ngpus_per_node)
             args.workers = int((args.workers + ngpus_per_node - 1) / ngpus_per_node)
             model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model) ########## SyncBatchnorm
-            model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu],find_unused_parameters=True)
+            model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[args.gpu])
         else:
             model.cuda()
             # DistributedDataParallel will divide and allocate batch_size to all
@@ -247,11 +247,15 @@ def main_worker(gpu, ngpus_per_node, args):
     valdir = os.path.join(args.data, 'val')
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
-
+    #For ResNet18, we use a bigger crop scale for better performance
+    if args.arch=='resnet18_quant' and args.groups==2:
+        scale=(0.2,1)
+    else:
+        scale=(0.08,1)
     train_dataset = datasets.ImageFolder(
         traindir,
         transforms.Compose([
-            transforms.RandomResizedCrop(224),
+            transforms.RandomResizedCrop(224,scale=scale),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             normalize,
@@ -286,7 +290,6 @@ def main_worker(gpu, ngpus_per_node, args):
                 model_dict=model_dict['state_dict']
             model.load_state_dict(model_dict)
             validate(val_loader, model, criterion, args, None, args.start_epoch)
-
         else:
             raise ValueError("model path {} not exists".format(args.model))
         return
