@@ -1,5 +1,5 @@
 # PalQuant
-This is the offical implementation of  ["PalQuant: Accelerating High-precision Networks on Low-precision Accelerators" in ECCV 2022]()
+This is the offical implementation of  ["PalQuant: Accelerating High-precision Networks on Low-precision Accelerators" in ECCV 2022](https://arxiv.org/abs/2208.01944)
 
 
 
