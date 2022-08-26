@@ -61,11 +61,11 @@ class QBottleneck(nn.Module):
             norm_layer = nn.BatchNorm2d
         width = int(planes * (base_width / 64.)) * groups
         # Both self.conv2 and self.downsample layers downsample the input when stride != 1
-        self.conv1 = QConv1x1(args, inplanes, width)
+        self.conv1 = QConv1x1(args, inplanes, width,groups=groups)
         self.bn1 = norm_layer(width)
         self.conv2 = QConv3x3(args, width, width, stride, groups, dilation)
         self.bn2 = norm_layer(width)
-        self.conv3 = QConv1x1(args, width, planes * self.expansion)
+        self.conv3 = QConv1x1(args, width, planes * self.expansion,groups=groups)
         self.bn3 = norm_layer(planes * self.expansion)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = downsample

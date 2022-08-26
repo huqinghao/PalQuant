@@ -23,7 +23,6 @@ class QConv(nn.Conv2d):
         super(QConv, self).__init__(in_channels, out_channels, kernel_size, stride, padding, dilation, groups, bias)
         self.quan_weight = args.QWeightFlag
         self.quan_act = args.QActFlag
-       
         self.STE_discretizer = STE_discretizer.apply
     
         if self.quan_weight:
@@ -87,12 +86,12 @@ class QConv(nn.Conv2d):
             self.initialize(x)
         
         Qweight = self.weight
-        if self.quan_weight:
-            Qweight = self.weight_quantization(Qweight)
+        # if self.quan_weight:
+        Qweight = self.weight_quantization(Qweight)
 
         Qact = x
-        if self.quan_act:
-            Qact = self.act_quantization(Qact)
+        # if self.quan_act:
+        Qact = self.act_quantization(Qact)
 
         output = F.conv2d(Qact, Qweight, self.bias,  self.stride, self.padding, self.dilation, self.groups) * torch.abs(self.output_scale)
 
